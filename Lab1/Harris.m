@@ -9,9 +9,11 @@ cHarris = (T11.*T22-T12.^2) - k*(T11+T22).^2; % The Harris response in each pixe
 histo = hist(cHarris);
 figure(10); stem(histo);
 
+
 histVec = sum(histo,2);
-tresh = find(histVec == max(histVec))
-tresh = 230000;
+tresh = find(histVec == max(histVec));
+tresh = (tresh-0.5)*sum(histVec);
+
 
 
 cHarrisNew = cHarris>tresh;
@@ -21,8 +23,7 @@ colormap(gray(256))
 imagesc(cHarrisNew, [-maxv2 maxv2]); colorbar('horizontal'); 
 axis image; axis off;
 title('cHarrisNew')
-size(cHarrisNew)
-size(Im)
+
 
 
 RegMax = imregionalmax(cHarris, 4);
