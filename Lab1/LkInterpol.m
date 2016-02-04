@@ -1,18 +1,38 @@
-function [ Int_Im ] = LkInterpol(Im,du,method)
+function [ Int_Im ] = LkInterpol(Im,du,type,method)
 %LKINTERPOL Returns value from interpolation interval
-Imy = size(Im,1);
-Imx = size(Im,2);
-upsample_size = 1/du;
-Int_Im = zeros(size(Im));
-Int = interp2(Im,upsample_size)
+% du contains [dx ,dy]
 
-for yit = 1:Imy
-    for xit = 1:Imx
+switch lower(type)
+    case{'upsample'}
+       
+        %We always want to upsample with 2.
+        Int_Im = interp2(Im,1,lower(method))
         
-        Int_Im(yit,xit) = Int(xit*upsample_size,yit*upsample_size)
+    case{'move'}
+        du(1) = dx;
+        du(2) = dy;
+        x = floor(dx);
+        dx = dx-x;
+        y = floor(dy);
+        dy = dy-y;
         
-        %Vilket värde ska vi hämta ut när vi läser mellan...?
-    end
+        Int_Im_Intermediate = interp2(Im,1,lower(method))
+        %upsample_size = 1/du;
+        %Int = interp2(Im,upsample_size,lower(method))
+%         
+%         for yit = 1:Int_Im_y
+%             for xit = 1:Int_Im_x
+%                 
+%                 Int_Im(yit,xit) = Int(xit*upsample_size,yit*upsample_size)
+%                 
+%                 %Vilket värde ska vi hämta ut när vi läser mellan...?
+%             end
+%         end
+%         
 end
+
+
+
+
 
 end
