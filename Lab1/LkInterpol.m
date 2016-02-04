@@ -17,6 +17,7 @@ switch lower(type)
         Xq = X + dx;
        
         Int_Im = interp2(X,Y,Im,Xq,Yq);
+        Int_Im(isnan(Int_Im)) = 0;
 end
 
 

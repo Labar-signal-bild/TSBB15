@@ -1,20 +1,14 @@
-function [ Z ] = LkTensor( Im_reg )
+function [ Z ] = LkTensor( Im_reg ,grad_param)
 %LKTENSOR Estimate a tensor for a specific region
 %[ fx fy] = LkGrad(Im,filter_size,Im_std)
 
-lengthy = 1:size(Im_reg,1);
-lengthx= 1:size(Im_reg,2);
-Im_std = mean(std(double(Im_reg)));
+lengthx = 1:size(Im_reg,1);
+lengthy= 1:size(Im_reg,2);
 %Decide filter size depending on image size (place in triangle)
-filter_size = ceil(length(Im_reg)/10);
-[fx fy] = LkGrad (Im_reg,filter_size,Im_std);
-Z  = zeros(2,2);
-for y = lengthy
-    for x = lengthx
-        Z = Z+[ fx(x,y).^2, fx(x,y) .* fy(x,y)  ; ...
-                fx(x,y) .* fy(x,y)  ,fy(x,y).^2   ]; 
-    end
-    
-end
+[fx fy] = LkGrad (Im_reg,grad_param(1),grad_param(2));
+
+Z = [mean(mean(fx.*fx)) mean(mean(fx.*fy)) ; ...
+    mean(mean(fx.*fy)) mean(mean(fy.*fy))];
+
 end
 
