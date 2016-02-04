@@ -1,12 +1,9 @@
-function [ T11Lp T22Lp T12Lp ] = HarrisTensor( Image )
+function [ T11Out T22Out T12Out ] = HarrisTensor( Image )
 %HARRISTENSOR Make a tensor for each pixel and put it in a matrix
 
-TensorMatrix = cell(size(Image));
+[fx fy] = LkGrad (Image,3,0.5); % 1/0.5 these you can variate
+% Cameraman looks good with these numbers
 
-filter_size = ceil(length(Im_reg)/10);
-
-Im_std = mean(std(double(Im_reg)));
-[fx fy] = LkGrad (Im_reg,filter_size,Im_std);
 
 T11 = fx.^2;
 T22 = fy.^2;
@@ -26,6 +23,9 @@ T22Lp=conv2(T22Lp,lpV,'same');
 T12Lp = conv2(T12,lpH,'same');
 T12Lp = conv2(T12Lp,lpV,'same');
 
+T11Out = T11Lp;
+T22Out = T22Lp;
+T12Out = T12Lp;
 
 
 end
