@@ -7,7 +7,6 @@ k = 0.1;
 cHarris = (T11.*T22-T12.^2) - k*(T11+T22).^2; % The Harris response in each pixel
 
 histo = hist(cHarris);
-figure(10); stem(histo);
 
 
 histVec = sum(histo,2);
@@ -18,21 +17,8 @@ tresh = (tresh-0.5)*sum(histVec);
 
 cHarrisNew = cHarris>tresh;
 maxv2 = max(max(abs(cHarrisNew)))/2;
-figure(21)
-colormap(gray(256))
-imagesc(cHarrisNew, [-maxv2 maxv2]); colorbar('horizontal'); 
-axis image; axis off;
-title('cHarrisNew')
-
-
 
 RegMax = imregionalmax(cHarris, 4);
-figure(23)
-colormap(gray(256))
-imagesc(RegMax, [0 maxv2]); colorbar('horizontal'); 
-axis image; axis off;
-title('cHarrisNew')
-
 
 HarrisPoints = cHarrisNew.*RegMax;
 
@@ -52,34 +38,8 @@ cornerpointy = ceil(cornerpointy/size(RegMax,2)*size(Im,2));
 
 r = ones(length(cornerpointx), 1)*3;
 
-figure(22)
-colormap(gray(256))
-imagesc(HarrisPoints, [0 1]); colorbar('horizontal');
-hold on;
-%viscircles([cornerpointx cornerpointy], r ,'EdgeColor', 'r');
-%axis image; axis off;
-title('f_x')
 
-
-
-figure(30); imagesc(Im); colormap(gray(256))
-figure(30);hold('on');%plot(cornerpointx,cornerpointy, 'go')
-viscircles([cornerpointx cornerpointy], r ,'EdgeColor', 'r');
-
-
-Im_intrest = HarrisPoints;
-
-
-
-
-
-
-
-
-
-
-
-
+Im_intrest = [cornerpointx cornerpointy];
 
 end
 
