@@ -1,0 +1,32 @@
+Programmeringsspråk
+C++. Om vi märker att det blir för svårt redan från för svårt redan från början byter vi. Passa er för vilken version som används! Vid felsökning på internet - kontrollera att det är samma version.
+
+Projektstruktur
+Projektledare - Fredrik
+Kontaktansvarig + sekreterare - Anna
+SVN & kod - Joakim
+Test1 - Poole
+Test2 - Brorsson
+
+
+Lunchmöten på måndag lunch. Förslag på dagordning:
+Kort statusrapport.
+Problem.
+Kommande.
+Äta lunch.
+
+Tips från Tomasso:
+
+Boost library - bra för filsystem/threading
+Eigen libary - matrisberäkningar
+KLT är enklast för object tracking.
+Underskatta inte evaluation-steget
+
+Vår moduluppdelning:
+
+Object detection - Anna
+Object tracking - Andreas
+Motion model (should be a fusion of estimate + measurement) - Alex
+Evaluation - Fredrik
+Background modeling (shadows, reflections) - Joakim
+Occlusion - ?

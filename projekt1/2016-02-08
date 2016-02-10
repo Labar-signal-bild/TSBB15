@@ -1,0 +1,64 @@
+Språk?
+Vad säger Tomasso? C++...?
+
+
+Projektstruktur - roller?
+Projektledare - Fredrik
+Kontaktansvarig + sekreterare - Anna
+SVN & kod - Joakim
+Test1 - Poole
+Test2 - Brorsson
+Måndag lunch.
+
+Kort statusrapport.
+Problem.
+Kommande.
+Äta lunch.
+
+
+
+Vad göra?
+
+
+Vilka delar ska vi skriva?
+Prediction
+Background modeling (e.g. shadows)
+Tracking
+
+Shadows - hard
+Lighting - harder
+Occlusion - "easy"
+
+Evaluation (compare with ground truth)
+
+Visuals
+What modules are good ? 
+
+Everyone should code something in tracking.
+Wait until we divide the areas.
+
+
+selection of method
+functionalities
+
+
+LaTeX in SVN. Push often.
+What version of opencv should we use?
+2.4.9.
+Check version when felsökning.
+
+boost library - file system/threading.
+eigein library - matrix.
+
+_dont underestimate the evaluation step_
+
+modules:
+
+object detection - Anna
+object tracking (KLT easiest) - Andreas
+motion model (fusion of estimate + measurement) - Alex
+evaluation - fredrik
+Background modeling - Jocke
+modeling of shadows and reflections/background modeling (probably the biggest. can be combined with object detection)
+
+friday is hard ddl. send in by wednesday.
