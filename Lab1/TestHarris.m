@@ -1,7 +1,7 @@
 %% Test the Harris function
 close all;
 clear;
-Im = double(imread('chessboard_3.png'));
+Im = double(imread('chessboard_1.png'));
 
 size(Im)
 
@@ -12,6 +12,6 @@ axis image; axis off;
 
 
 
-gshgd = Harris(Im);
+gshgd = Harris(Im, 'all');
 
 

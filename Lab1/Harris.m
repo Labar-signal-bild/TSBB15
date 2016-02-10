@@ -15,6 +15,7 @@ cHarris = (T11.*T22-T12.^2) - k*(T11+T22).^2; % The Harris response in each pixe
 
 
 histo = hist(cHarris);
+stem(histo);
 
 histVec = sum(histo,2);
 tresh = find(histVec == max(histVec));
@@ -24,7 +25,8 @@ tresh = (tresh-0.5)*sum(histVec);
 cHarrisNew = zeros(size(cHarris,1), size(cHarris,2));
 treshPoints = find(cHarris > tresh);
 cHarrisNew(treshPoints) = 1;
-%cHarrisNew = cHarris.*cHarris2;
+
+cHarrisValues = cHarrisNew.*cHarris;
 
 maxv2 = max(max(abs(cHarrisNew)))/2;
 %colormap(gray(256))
@@ -48,6 +50,12 @@ RegMax = imregionalmax(cHarris, 4);
 %title('cHarrisnew')
 
 HarrisPoints = cHarrisNew.*RegMax;
+cHarrisValues = cHarrisValues.*HarrisPoints;
+
+Imm = ordfilt2(cHarrisValues,9,ones(3)); 
+[row,col] = find(cHarrisValues==Imm);
+%cHarrisValuesdilated = cHarrisValues(row,col);
+
 
 %figure(1339)
 
@@ -55,24 +63,14 @@ HarrisPoints = cHarrisNew.*RegMax;
 %axis image; axis off;
 %title('harris points')
 %hpsum = sum(sum(sum(HarrisPoints)))
+
 %HarrisPoints = bwmorph(HarrisPoints,'dilate',5);
 %HarrisPoints = bwmorph(HarrisPoints,'shrink',5);
 
 
 cornerpoints = find(HarrisPoints == 1); %Ger en vector med pixlar på alla vita corners
-
 [x y] = ind2sub(size(Im),cornerpoints);
 
-%cornerpointx = zeros(length(cornerpoints), 1);
-%cornerpointy = zeros(length(cornerpoints), 1);
-
-%for i = 1:length(cornerpoints) %Gör om pixlar till x,y koordinater
-%    cornerpointx(i) = floor(cornerpoints(i)/size(RegMax,2))+1;
-%    cornerpointy(i) = cornerpoints(i) - floor(cornerpoints(i)/size(RegMax,1))*size(RegMax,1);
-%end
-
-%cornerpointx = ceil(cornerpointx/size(RegMax,1)*size(Im,1));
-%cornerpointy = ceil(cornerpointy/size(RegMax,2)*size(Im,2));
 
 
 r = ones(length(x), 1)*3;
@@ -86,23 +84,12 @@ r = ones(length(x), 1)*3;
 %axis image; axis off;
 %title('HarrisPoints')
 
-%figure(30); imagesc(Im); colormap(gray(256))
-%figure(30);hold('on');%plot(cornerpointx,cornerpointy, 'go')
+figure(30); imagesc(Im); colormap(gray(256))
+figure(30);hold('on'); plot(y,x, 'go')
 %viscircles([y x], r ,'EdgeColor', 'r');
 
-Im_intrestTemp = [x y];
-if K == 'all'
-    Im_intrest = Im_intrestTemp;
-elseif K >= length(Im_intrestTemp)
-    Im_intrest = Im_intrestTemp;
-else
-    midLength = ceil(length(Im_intrestTemp)/2);
-    topK = floor(K/2);
-    Im_intrest = Im_intrestTemp((midLength-topK):(midLength-topK+K-1), :);
-     
-end
 
-    
+Im_intrest = 1;
 
 
 end

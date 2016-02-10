@@ -55,7 +55,7 @@ HarrisPoints = Harris(ScalePyramid_Im2{1});
 
 %% Test on chessboard
 
- Im1 = double(imread('chessboard_1.png'));
+Im1 = double(imread('chessboard_1.png'));
 HarrisPoints = Harris(Im1, 6);
 
 figure(11); imagesc(Im1); colormap(gray(256))
