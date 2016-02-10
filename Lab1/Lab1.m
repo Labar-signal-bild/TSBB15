@@ -55,23 +55,18 @@ HarrisPoints = Harris(ScalePyramid_Im2{1});
 
 %% Test on chessboard
 
-Im1 = double(imread('chessboard_1.png'));
-Im2 = double(imread('chessboard_2.png'));
-
+ Im1 = double(imread('chessboard_1.png'));
 HarrisPoints = Harris(Im1, 6);
 
-figure(1); imagesc(Im1); colormap(gray(256))
-figure(1);hold('on');plot(HarrisPoints(1:end,2), HarrisPoints(1:end,1), 'go')
-figure(2); imagesc(Im2); colormap(gray(256))
+figure(11); imagesc(Im1); colormap(gray(256))
+figure(11); hold on ;plot(HarrisPoints(1:end,2), HarrisPoints(1:end,1), 'go'); hold off
 
-
-%%
-
-
-[dtot e z] = LkTracker(Im1,Im2,HarrisPoints);
-
-%%
-HarrisPoints = HarrisPoints + [dtot(:,2) dtot(:,1)];
-figure(3); imagesc(Im2); colormap(gray(256))
-figure(3);hold('on');plot(HarrisPoints(1:end,2), HarrisPoints(1:end,1), 'go')
+for i = 1:9
+    Im1 = double(imread(strcat('chessboard_',num2str(i),'.png')));
+    Im2 = double(imread(strcat('chessboard_',num2str(i+1),'.png')));   
+    [dtot e z] = LkTracker(Im1,Im2,HarrisPoints);
+    HarrisPoints = HarrisPoints + [dtot(:,2) dtot(:,1)];
+    figure(i); imagesc(Im2); colormap(gray(256));
+    figure(i);  hold on; plot(HarrisPoints(1:end,2), HarrisPoints(1:end,1), 'go'); hold off;
+end
 
