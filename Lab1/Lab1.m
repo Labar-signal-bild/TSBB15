@@ -1,7 +1,7 @@
 %% Lab1 main file
 clear;
 disp('------ Lab 1 LK-Tracker ------');
-%initcourse('TSBB15');
+initcourse('TSBB15');
 %% Main program
 
 scale_levels = 1; %iterative variable
@@ -44,8 +44,8 @@ HarrisPoints = Harris(ScalePyramid_Im2{1});
 
 %% LkTracking
 % Upsamle and recompute LkTracker untill original size achived
-d = 0;
-[d e z] = LkTracker(ScalePyramid_Im2{1},ScalePyramid_Im1{1},d,intrest_point);
+
+[dtot e z] = LkTracker(ScalePyramid_Im2{1},ScalePyramid_Im1{1},intrest_point);
 %%
 %d = 0;
 %for i = scale_levels:-1:1 %Start from the smallest pyramid
@@ -53,7 +53,25 @@ d = 0;
 %d = LkTracker(ScalePyramid_Im1{i},ScalePyramid_Im2{i},d);
 %end
 
+%% Test on chessboard
+
+Im1 = double(imread('chessboard_1.png'));
+Im2 = double(imread('chessboard_2.png'));
+
+HarrisPoints = Harris(Im1, 6);
+
+figure(1); imagesc(Im1); colormap(gray(256))
+figure(1);hold('on');plot(HarrisPoints(1:end,2), HarrisPoints(1:end,1), 'go')
+figure(2); imagesc(Im2); colormap(gray(256))
 
 
+%%
 
+
+[dtot e z] = LkTracker(Im1,Im2,HarrisPoints);
+
+%%
+HarrisPoints = HarrisPoints + [dtot(:,2) dtot(:,1)];
+figure(3); imagesc(Im2); colormap(gray(256))
+figure(3);hold('on');plot(HarrisPoints(1:end,2), HarrisPoints(1:end,1), 'go')
 
