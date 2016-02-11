@@ -1,2 +1,0 @@
-\subsection{Shadow- and Reflection-handling}
-Any object occluding a light source will give rise to shadows, moving alongside the object. In the same way, even surfaces may give rise to reflections which will move alongside the object. This may lead to the shadows or reflections being treated as a new object, or become merged with the object. This must be treated somehow.\\

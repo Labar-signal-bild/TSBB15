@@ -1,6 +1,0 @@
-\subsection{Object Detection}
-To be able to track a moving object in an image the first step is to find objecst of interest. Two methods of doing so has been discussed. 
-
-The first method of finding objects is background modeling. When using background modeling pixels that differ from the "normal state" of the background will be marked with a $1$ and pixels that fit to the modeled background will be marked with $0$. This means that a binary image of differences from an all background image will be made. By processing this binary image with morphological functions objects in the image can be found.  (Pros and cons??)
-
-The other method that has been discussed is comparing two on each other following images and find corresponding pixels in each image. If the corresponding pixels have moved and so has many of the pixels connecting that pixel the assumption of that being a moving object is made.
