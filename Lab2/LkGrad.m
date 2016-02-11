@@ -1,7 +1,7 @@
-function [fx fy lp] = LkGrad(Im,grad_param)
+function [fx fy lp] = LkGrad(Im,gradParam)
 %LKGRAD Estimate the regularizeed gradient for an image
-N = grad_param(1);
-sigma = grad_param(2);
+N = gradParam(1);
+sigma = gradParam(2);
 
 if sigma == 0
     sigma = 0.1;
