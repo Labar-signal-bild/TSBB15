@@ -1,0 +1,3 @@
+\subsection{Object Tracking}
+From the object detection module intressed points are passed on to the object tracking. These points are evaluated if there is any movement. The tracking is also responible for clustering the movement to an object and keep track of of these objects position. The KLT tracker algorithm will be used to detect if there is any movement in the intressed points. To make the algorithm faster and more efficient predicted data from the Kalmanfilter will be used to make the search area for movement smaler. 
+

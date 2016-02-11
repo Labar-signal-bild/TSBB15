@@ -1,0 +1,14 @@
+\subsection{Occlusion}
+Occlusion is the problem of keeping track of object when they disapear
+or are partially hidden. For example it occurs when two objects cross
+path. Below is a summary of how this problem can be solved. This can
+be solved by using a model that simulates the motion, e.g. using a
+kalman filter to predict the position in the next time instance.
+
+\subsubsection{Motion model}
+A motion model is necessary to determine where the object that is being tracked is headed. The reason for wanting to determine where an object is headed is mostly so that it is possible to find an object if it has been lost. This can help solve different occlusion problems.
+
+If an object walks behind a wall and then returns it should be
+possible to create a motion model such that when it return we can say
+with a certainty that it is the same object. This will be solved with
+a Kalman filter.

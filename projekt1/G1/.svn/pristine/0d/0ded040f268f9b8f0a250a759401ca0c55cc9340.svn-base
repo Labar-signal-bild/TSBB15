@@ -1,0 +1,47 @@
+\documentclass[10pt,twocolumn]{article}
+
+\input{style}
+
+
+\begin{document}
+
+\begin{titlepage}
+		\begin{center}
+			
+			{\Large\bfseries Design plan TSBB15\\Group 1, Project 1} \\ % Replace "NAME OF DOCUMENT" with... you know.
+			
+			\vspace{2\baselineskip}
+			Andreas Brorsson, andbr981, (911023-1215)\\
+                        Fredrik Fridborn, frefr166, (910619-1654)\\
+                        Alexander Poole, alepo020,(920829-0057)\\
+                        Anna Hjelmberg, annhj876, (910414-2923)\\
+                        Joakim Johnander, joajo445, (9311234059)\\
+			\vspace{2\baselineskip}
+			
+			\today	
+			
+		\end{center}
+\end{titlepage}
+
+%% Table of contents
+%\clearpage
+%\pagenumbering{roman}
+%\tableofcontents
+%\newpage
+
+%%Main repport
+\pagenumbering{arabic}
+\input{chapters/introduction.tex} 
+
+\input{chapters/projectgoal.tex}
+
+\input{chapters/modules.tex}
+\input{chapters/detection.tex}
+\input{chapters/tracking.tex}
+\input{chapters/evaluation.tex}
+\input{chapters/occlusion.tex}
+\input{chapters/shadows.tex}
+\input{chapters/flowchart.tex}
+\input{chapters/timeplan.tex}
+
+\end{document}
