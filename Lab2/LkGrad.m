@@ -10,7 +10,7 @@ end
 lp=exp(-0.5*([-N:N]/sigma).^2);
 lp=lp/sum(lp);
 df=-1/sigma^2*[-N:N].*lp;
-%df=df/sum(df);
+%df=df/sum(df)
 
 fx=conv2(lp,df',Im,'same');
 fy=conv2(df,lp',Im,'same');
