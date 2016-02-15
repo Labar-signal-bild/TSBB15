@@ -1,8 +1,0 @@
-\subsection{Shadow- and Reflection-handling}
-Moving objects oftentimes cast shadows. When the object moves, naturally, the shadows move with it. When segmenting the image, trying to locate different objects the shadows may be treated as new different objects, or become merged with the objects casting them. Because shadows in most cases, at least intuitively, seem to preserve the background color but not the intensity, this could most likely be solved.\\
-
-Even worse, some surfaces may give rise to specular reflections. For instance a lake reflecting the object, or a shiny floor reflecting a person moving. This may result in also the color changing.\\
-
-First and foremost shadows will be treated. Then when that works, we begin development of a scheme treating reflections. The first step when treating reflections will be reading literature. This is because we are not sure how big of a problem these reflections will be until other parts of the program is developed and tested on the test data.\\
-
-Shadows will be treated with a set of algorithms presented in John Woods master thesis. This means that a combination of Stauffer and Grimson's algorithm and a background model utilizing Horprasert's color scheme will be implemented. After its implementation it will be tested, and possible modifications will be applied.\\

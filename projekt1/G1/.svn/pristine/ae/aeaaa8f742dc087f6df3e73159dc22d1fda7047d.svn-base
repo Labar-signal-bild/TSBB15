@@ -1,9 +1,0 @@
-\subsection{Occlusion}
-
-
-From homepage:
-Should handle occlusions, using one of the following\\
-foreground modelling (i.e. region descriptors)\\
-prediction (e.g. using a Kalman filter)\\
-ground plane modeling\\
-KLT tracking

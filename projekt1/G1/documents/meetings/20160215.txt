@@ -1,1 +1,0 @@
-Förslag på punkter: CamelCase eller snake_case? Gäller filnamn samt funktioner/variabler

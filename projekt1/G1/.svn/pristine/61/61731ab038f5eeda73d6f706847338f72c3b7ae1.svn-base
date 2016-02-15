@@ -1,5 +1,0 @@
-\subsection{Evaluation}
-
-The purpose of the evaluation module is to compare the results from the tracking to that of the ground truth in the images. The ground truth of the images is found in .xml files and contains information for each frame about the moving objects in the figure. There are x- and y-coordinates in the document and these can be extracted. After this, the area of the rectangle that these create will be calculated. After this, the area of the rectangle created by the tracker at the various objects will be calculated. Thereafter, the accuracy in comparison to ground truth will be calculated as the intersection of the ground truth rectangle and the result over the union of the two. 
-% http://groups.inf.ed.ac.uk/vision/CAVIAR/CAVIARDATA1/Walk1/wk1gt.xml
-%http://groups.inf.ed.ac.uk/vision/CAVIAR/CAVIARDATA1/gt_file_format.txt
