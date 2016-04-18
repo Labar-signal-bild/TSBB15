@@ -1,9 +1,9 @@
-function [Xi Xt] = CorrConv(A,rt,ri,It,Jt,Ii,Ji,thresh)
+function [Xi Xt] = CorrConv(A,rt,ri,rowzt,colzt,rowzi,colzi,thresh)
 Xt = [];
 Xi = [];
-[I J] = size(A);
+[rowz colz] = size(A);
 
-for i=1:I
+for i=1:rowz
     best_match = 0;
     best_value = inf;
     
@@ -20,10 +20,10 @@ for i=1:I
     end
     
     if(best_match > 0)
-        Xt_new = [Jt(i) It(i)  1]';
+        Xt_new = [colzt(i) rowzt(i)  1]';
         Xt     = [Xt Xt_new];
         
-        Xi_new = [Ji(best_match) Ii(best_match) 1]';
+        Xi_new = [Ji(best_match) rowzi(best_match) 1]';
         Xi     = [Xi Xi_new];
     end
 end

@@ -4,27 +4,34 @@ initcourse tsbb15
 mex non_max_suppression.c
 %% Testing CorrPoints
 close all
+% Variables
+fsz = 20;
+std_g = 1;
+supBox = 100;
 %
 
-Imt         = imread('DCMI/stereo-corridor_l.gif');
-Imi         = imread('DCMI/stereo-corridor_r.gif');
+Imt = imread('DCMI/img1.png');
+Imi = imread('DCMI/img2.png');
+Imt = Imt(:,:,1);
+Imi = Imt(:,:,1);
 
-%[Xt Xi]     = CorrPoints(Imt,Imi);
+pt = IntrestPoints(Imt,fsz,std_g,supBox);
+pi = IntrestPoints(Imi,fsz,std_g,supBox);
 
-%show_corresp(Imt,Imi,Xt(1:2,1),Xi(1:2,1));
 
-pt          = IntrestPoints(Imt)
-pi          = IntrestPoints(Imi)
-
-[It Jt]     = ind2sub(size(Imt),pt);
-[Ii Ji]     = ind2sub(size(Imi),pi);
+[rowzt colzt]     = ind2sub(size(Imt),pt);
+[rowzi colzi]     = ind2sub(size(Imi),pi);
 
 figure
-show_harris(Imt,It,Jt)
+subplot(2,1,1)
+show_harris(Imt,colzt,rowzt);
+subplot(2,1,2)
+show_harris(Imi,colzi,rowzi);
 
-A           = FindClose(It,Jt,Ii,Ji,30);
+A  = FindClose(colzt,rowzt,colzi,rowzi,300);
+%%
 
-rt          = cut_out_rois(Imt,It,Jt);
-ri          = cut_out_rois(Imi,Ii,Ji);
+rt = cut_out_rois(Imt,colzt,rowzt);
+ri = cut_out_rois(Imi,colzi,rowzi);
 
-[Xt Xi]     = CorrConv(A,rt,ri,It,Jt,Ii,Ji,10);
+[Xt Xi] = CorrConv(A,rt,ri,rowzt,colzt,rowzi,colzi,10);
