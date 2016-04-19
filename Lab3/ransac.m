@@ -1,12 +1,15 @@
-function [ Fopt ] = ransac(Xt, Xi, N, T)
+function [ Fopt , Inliers_t, Inliers_i ] = ransac(Xt, Xi, N, T)
 
 
-num_inliers = 0;
+
 num_inliers_old = 0;
 Xl = zeros(2,8);
 Xr = zeros(2,8);
 
 for n = 1:N
+    num_inliers = 0;
+    Inliers_t_temp = [];
+    Inliers_i_temp = [];
     % (iiia) This works only if Xt and Xi are sorted so that Xt1 correspond
     % to Xi1 and so on...
     
@@ -19,11 +22,16 @@ for n = 1:N
     
     F = fmatrix_stls(Xl,Xr);
     % (iiib)
-    distance = fmatrix_residuals(F, Xl, Xr);
+    distance = fmatrix_residuals(F, Xt, Xi);
+    
     % (iiic)
     for k = 1:length(distance) 
-        if (distance(1,k)^2 + distance(2,k)^2) < T % Inlier treshold
+        if sqrt((distance(1,k)^2 + distance(2,k)^2)) < T % Inlier treshold
             num_inliers = num_inliers + 1;
+   
+            Inliers_t_temp = [Inliers_t_temp, Xt(:,k)];
+            Inliers_i_temp = [Inliers_i_temp, Xi(:,k)];
+            
         end
     end
     
@@ -31,10 +39,14 @@ for n = 1:N
     if num_inliers > num_inliers_old
         Fopt = F;
         num_inliers_old = num_inliers;
+        Inliers_t = Inliers_t_temp;
+        Inliers_i = Inliers_i_temp;
     end
     
     
 end
+
+inlier_ratio = num_inliers_old/length(distance) 
 
 end
 

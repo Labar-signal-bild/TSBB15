@@ -1,34 +1,77 @@
-function [Xi Xt] = MeanIntensity(A,rt,ri,colzt,rowzt,colzi,rowzi,thresh)
+function [Xi Xt indt indi] = MeanIntensity(A,rt,ri,Ipt,Ipi,error_thresh, cutBox)
 %Summary finds which intrest point in Imi which best matches the intensity
 %value of intrest point k in Imt
 
 Xt = [];
 Xi = [];
-[rowz colz] = size(A);
+indt = [];
+indi = [];
+length_Ipt = length(Ipt)
+length_Ipi = length(Ipi)
+intrest_matrix = inf * ones(length_Ipt,length_Ipi);
 
-for i=1:rowz
-    best_match = 0;
-    best_value = inf;
+
+for currentRow=1:length_Ipt
+    %pos = find(A(colz,:)>0);
     
-    pos = find(A(i,:)>0);
-    meanRt = mean(rt(:,i));
+    Rt = rt(:,currentRow);
     
-    for j=pos
-        best_match=j;
-        meanRi=mean(ri(:,j));
-        error = abs(meanRt-meanRi);
-        if(and(best_value > error,thresh > error))
-            best_match = j;
-        end
-    end
+    %Rt = reshape(rt(:,currentRow),cutBox, cutBox);
     
-    if(best_match > 0)
-        Xt_new = [colzt(i) rowzt(i)  1]';
-        Xt     = [Xt Xt_new];
+    %for currentCol=pos
+    for currentCol=1:length_Ipi
         
-        Xi_new = [Ji(best_match) rowzi(best_match) 1]';
-        Xi     = [Xi Xi_new];
+        Ri=ri(:,currentCol);
+        %Ri= reshape(ri(:,currentCol), cutBox, cutBox);
+        error = sum(sum((Rt-Ri).^2));
+        %error2 = sum(sum(norm(xcorr2(Rt, Ri))));
+        
+        intrest_matrix(currentRow,currentCol) = error;
+        
     end
 end
+ 
+%intrest_matrix
+
+%[value row col] = joint_min(intrest_matrix);
+%{
+for i=1:length(value)
+    Xt_new = [Ipt(1,row(i)) Ipt(2,row(i))  1]';
+    Xt     = [Xt Xt_new];
+
+    Xi_new = [Ipi(1,col(i)) Ipi(2,col(i))  1]';
+    Xi     = [Xi Xi_new];
+end
+%}
+
+[value,indthelp,indihelp] = joint_min(intrest_matrix);
+
+for it = 1:length(value)
+    if value(it) < error_thresh
+        indt = [indt, indthelp(it)];
+        indi = [indi, indihelp(it)];
+    end
+end
+            
+%{
+while min(min(intrest_matrix)) < error_thresh
+    
+    [row, col] = find(intrest_matrix == min(min(intrest_matrix)));
+    
+    %If many in t and i, just take first one.
+    Xt_new = [Ipt(1,row(1)) Ipt(2,row(1))  1]';
+    Xt     = [Xt Xt_new];
+
+    Xi_new = [Ipi(1,col(1)) Ipi(2,col(1))  1]';
+    Xi     = [Xi Xi_new];
+    
+    min(min(intrest_matrix));
+   intrest_matrix(row(1),:) = inf;
+   intrest_matrix(:,col(1)) = inf;
+   
+end
+%}
+
+
 end
 
