@@ -1,4 +1,7 @@
-function [Xi Xt] = CorrConv(A,rt,ri,rowzt,colzt,rowzi,colzi,thresh)
+function [Xi Xt] = CorrConv(A,rt,ri,colzt,rowzt,colzi,rowzi,thresh)
+%Summary finds which intrest point in Imi which best matches the intensity
+%value of intrest point k in Imt
+
 Xt = [];
 Xi = [];
 [rowz colz] = size(A);
@@ -8,15 +11,15 @@ for i=1:rowz
     best_value = inf;
     
     pos = find(A(i,:)>0);
-    Rt = reshape(rt(:,i),7,7);
+    meanRt = mean(rt(:,i));
     
     for j=pos
         best_match=j;
-        %Ri = reshape(ri(:,j),7,7);
-        %simularity = abs(sum(sum(Rt-Ri))); % Måste ha bättre funktion för att plocka ut korresponderande punkter
-        %if(and(best_value > simularity,thresh > simularity))
-        %    best_match = j;
-        %end
+        meanRi=mean(ri(:,j));
+        error = abs(meanRt-meanRi);
+        if(and(best_value > error,thresh > error))
+            best_match = j;
+        end
     end
     
     if(best_match > 0)
