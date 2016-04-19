@@ -1,4 +1,4 @@
-function [Xi Xt] = CorrConv(A,rt,ri,colzt,rowzt,colzi,rowzi,thresh)
+function [Xi Xt] = MeanIntensity(A,rt,ri,colzt,rowzt,colzi,rowzi,thresh)
 %Summary finds which intrest point in Imi which best matches the intensity
 %value of intrest point k in Imt
 
