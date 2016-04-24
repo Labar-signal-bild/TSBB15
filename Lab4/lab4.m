@@ -1,55 +1,70 @@
 %% TSBB15 lab4
-cd ~/Documents/TSBB15/Lab4
+%cd ~/Documents/TSBB15/Lab4 %Fredrik
+cd ~/skola/TSBB15/Lab4 %Poole
 clear
 clc
 initcourse TSBB15
 close all
-%% Algorithm overview
-L = double(imread('cameraman.tif'));
-k = 1;
-delta_s = 1;
-iterations = 1000;
+%% Variables
+IMAGE_SET = 2; % 1 = camera_man, 2 = testCircle
 
-% Calculate structure tensor T with HarrisTensor
-[T11 T22 T12]= HarrisTensor(L);
+switch IMAGE_SET
+    case 1
+        std = 10;
+        im = double(imread('cameraman.tif'));
+        [L noise_var] = AddNoise(im,'gauss',0,std);
+    case 2
+        std = 0.1;
+        mean_ = 0.5;
+        % create test image for the restoration lab
+        [x,y] = meshgrid(-1:.01:1);
+        im = (x.^2 + y.^2) < mean_;
+        noise = (rand(size(im))-mean_)*std;
+        L = im + noise;
+        noise_var = var(noise(:));
+        % use same color axis in all images
+        colorAxis = [min(im(:))-.1 max(im(:))+.1];
 
+        figure(1);
+        imagesc(im, colorAxis); colorbar;
+        title('Image with noise');
+otherwise
 
-% Hessian = approx acc to slide 64
-h11 = [0,0,0; 1,-2,1;0,0,0];
-h12 = 1/4*[1,0,-1; 0,0,0;-1,0,1];
-h22 = h11';
-H11 = conv2(L,h11,'same');
-H12 = conv2(L,h12,'same');
-H22 = conv2(L,h22,'same');
-
-eiginit = zeros(2);
-eigstruct = repmat(struct('alpha',[0 0],'diff_tens',eiginit),size(L));
-for i = 1:size(L,1)
-    for j = 1:size(L,2)
-    
-        T = [T11(i,j) , T12(i,j)  ; ...
-             T12(i,j) , T22(i,j) ];
-        HL = [H11(i,j) , H12(i,j)  ; ...
-              H12(i,j) , H22(i,j) ];
-         
-        % EVD T and extract eigienvalues lambda
-        [eigvec,eigval] = eig(T);
-        
-        % Calculate alpha from lambda.
-        alpha = exp(-diag(eigval)/k);
-        
-        % Calculate D acc to p 56
-        D = alpha(1) * eigvec(:,1) * eigvec(:,1)' +...
-            alpha(2) * eigvec(:,2) * eigvec(:,2)';
-        delta_s * trace(D*HL);
-         
-        eigstruct(i,j) = struct('alpha',alpha,'diff_tens',D);
-    end
 end
 
+%% Algorithm 
+k = 10^-2;
+delta_s = std*1000; %Arbitrary scaling factor 1/10
+iterations = 1;
 
+Lnew = L;
+L_mean = mean(mean(L));
+meanim = mean(mean(im));
+figure(2);clf;
+subplot(1,2,1);imshow(im,[]);title(['Without noise, mean = ' num2str(meanim)]);
+subplot(1,2,2);imshow(L,[]);title(['With noise, std = ' num2str(std)]);
+
+DHL_trace = DHLTrace(L,k);
+
+for epochs = 1:iterations
+    Lnew = Lnew + delta_s * DHL_trace;
+end
+
+Lnew_mean = mean(mean(Lnew));
+figure(3);clf;
+subplot(2,2,1);imshow(im,[]);title(['Original image ' num2str(meanim)]);
+subplot(2,2,2);imshow(L,[]);title(['With noise, mean = ' num2str(L_mean)]);
+subplot(2,2,3);imshow(Lnew,[]);title(['Enhancement after '...
+                      num2str(epochs) ' epochs, mean = ' num2str(Lnew_mean) ]);
+subplot(2,2,4);imshow(L-Lnew,[]);title(['Difference after ' num2str(epochs) ' epochs']);
+
+signal_var =  var(Lnew(:));
+snr = 10 * log10(signal_var / noise_var)
 
 % L = image
 %TODO: 
-% - Make blur fn to blur image
+% Find good parameter values!
 % - What is s? What is delta s?
+% What is meant by 1 iteration of diffusion process? 1 iteration of
+% everything or just calculating the diffusion tensor once?
+% Try both qualitative and quantitative test.
