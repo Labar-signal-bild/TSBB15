@@ -1,4 +1,4 @@
-%% TSBB15 lab4
+%% TSBB15 Diffusion
 %cd ~/Documents/TSBB15/Lab4 %Fredrik
 cd ~/skola/TSBB15/Lab4 %Poole
 clear
@@ -72,10 +72,4 @@ snr = 10 * log10(signal_var / noise_var)
 % What is meant by 1 iteration of diffusion process? 1 iteration of
 % everything or just calculating the diffusion tensor once?
 
-
-
-%% Inpainting via Total Variation
-
-u = L;
-unew = u;
 

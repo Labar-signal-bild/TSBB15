@@ -18,6 +18,22 @@ elseif(strcmp('conv',noise_type))
     lp = exp(-0.5*([-N:N]/std).^2);
     lp = lp/sum(lp);
     Im_noise = conv2(lp,lp',Im,'same');
+elseif(strcmp('mask',noise_type))
+    reg_size = std; %Size of broken region
+    reg_number = randi(100); %Random amount of broken region
+    %Random positions - remove reg_size to prevent index error.
+    reg_position_x = randi(length(Im) - reg_size,1,reg_number);
+    reg_position_y = randi(length(Im) - reg_size,1,reg_number);
+     
+    Im_noise = ones(size(Im));
+    
+    for i = 1:reg_number
+        
+    Im_noise(reg_position_x(i):reg_position_x(i)+reg_size, reg_position_y(i):reg_position_y(i)+reg_size) = 0; 
+    
+    end
+    
+    noise_var = 0;
 else
     disp(' Can not add this noise, type help AddNoise.')
 end
