@@ -82,8 +82,8 @@ show_harris(Imt, Inliers_tgs(1,:),Inliers_tgs(2,:));
 g = plot_eplines(Fnew, Xi,[0 , size(Imt,1) , 0 , size(Imt,2)] );
 
 %% Verification
-err_old = gsfun(F,Inliers_t,Inliers_i);
-err_new = gsfun(Fnew,Inliers_tgs,Inliers_igs);
+err_old = fmatrix_residuals(F,Inliers_t,Inliers_i);
+err_new = fmatrix_residuals(Fnew,Inliers_t,Inliers_i);
 err_old_mean = abs(mean(err_old,2))
 err_new_mean = abs(mean(err_new,2))
-new_err_perc_of_old = err_new_mean ./ err_old_mean*100
+this_is_how_much_percent_better_we_are_after_gs = 100 - err_new_mean ./ err_old_mean*100
