@@ -2,15 +2,15 @@
 %cd ~/Documents/TSBB15/Lab4 %Fredrik
 cd ~/skola/TSBB15/Lab4 %Poole
 clear
-clc
 initcourse TSBB15
+clc
 close all
 %% Variables
-IMAGE_SET = 2; % 1 = camera_man, 2 = testCircle
+IMAGE_SET = 1; % 1 = camera_man, 2 = testCircle
 
 switch IMAGE_SET
     case 1
-        std = 10;
+        std = 30;
         im = double(imread('cameraman.tif'));
         [L noise_var] = AddNoise(im,'gauss',0,std);
     case 2
@@ -33,10 +33,10 @@ otherwise
 end
 
 %% Algorithm 
-k = 10^-2;
-delta_s = 0.3; %Arbitrary scaling factor 0.3
-iterations = 1;
-
+k = 10^-2; %10^-2 good for binary
+delta_s = 0.3; %Arbitrary scaling factor, 0.3 is a good number for binary
+iterations = 100;
+%L = +im; %If looking at binary image to cast from logical to double
 Lnew = L;
 L_mean = mean(mean(L));
 meanim = mean(mean(im));
@@ -44,14 +44,17 @@ figure(2);clf;
 subplot(1,2,1);imshow(im,[]);title(['Without noise, mean = ' num2str(meanim)]);
 subplot(1,2,2);imshow(L,[]);title(['With noise, std = ' num2str(std)]);
 
-DHL_trace = DHLTrace(L,k);
-
+tic
 for epochs = 1:iterations
+    
+    DHL_trace = DHLTrace(L,k);
     Lnew = Lnew + delta_s * DHL_trace;
 end
+toc
 
 Lnew_mean = mean(mean(Lnew));
-figure(3);clf;
+%imshow(im,[0 1]) if we have a binary image with many epochs
+figure(3);clf; 
 subplot(2,2,1);imshow(im,[]);title(['Original image ' num2str(meanim)]);
 subplot(2,2,2);imshow(L,[]);title(['With noise, mean = ' num2str(L_mean)]);
 subplot(2,2,3);imshow(Lnew,[]);title(['Enhancement after '...

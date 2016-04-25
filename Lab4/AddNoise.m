@@ -10,7 +10,7 @@ function [ Im_noise noise_var] = AddNoise(Im,noise_type, mean, std)
 [N M] = size(Im);
 
 if(strcmp('gauss',noise_type))
-    noise = std*randn(N,M)
+    noise = std*randn(N,M);
     noise_var = var(noise(:));
     Im_noise = Im + mean + noise;
 elseif(strcmp('conv',noise_type))

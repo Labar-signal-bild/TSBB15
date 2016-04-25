@@ -15,27 +15,36 @@ H11 = conv2(L,h11,'same');
 H12 = conv2(L,h12,'same');
 H22 = conv2(L,h22,'same');
    
-for i = 1:size(L,1)
-    for j = 1:size(L,2)
+U = T11+T22;
+E = T11.*T22 - T12.*T12;
 
-    T = [T11(i,j) , T12(i,j)  ; ...
-         T12(i,j) , T22(i,j) ];
-    HL = [H11(i,j) , H12(i,j)  ; ...
-        H12(i,j) , H22(i,j) ];
+%Perform EVD
+eigval = ones(size(L,1),size(L,2),2);
+sqrt_temp = sqrt(U.^2/4-E);
+eigval(:,:,1) = U/2 + sqrt_temp;
+eigval(:,:,2) = U/2 - sqrt_temp;
 
-    % EVD T and extract eigenvalues lambda
-    [eigvec,eigval] = eig(T);
+eigvec = ones(size(L,1),size(L,2),4);
+eigvec(:,:,1) = eigval(:,:,1) - T22 ;
+eigvec(:,:,2) = T12;
+eigvec(:,:,3) = eigval(:,:,2) - T22 ;
+eigvec(:,:,4) = T12;
 
-    % Calculate alpha from lambda.
-    alpha = exp(-diag(eigval)/k);
+% Calculate alpha from lambda.
+alpha = ones(size(L,1),size(L,2),2);
+alpha(:,:,1) = exp(-eigval(:,:,1) ./ k);
+alpha(:,:,2) = exp(-eigval(:,:,2) ./ k);
 
-    % Calculate D acc to p 56
-    D = alpha(1) * eigvec(:,1) * eigvec(:,1)' +...
-        alpha(2) * eigvec(:,2) * eigvec(:,2)';
+% Calculate D acc to p 56
+ 
+D = ones(size(L,1),size(L,2),4);
+D(:,:,1) = alpha(:,:,1) .* eigvec(:,:,1).^2 + alpha(:,:,2) .* eigvec(:,:,3).^2;
+D(:,:,2) = alpha(:,:,1) .* eigvec(:,:,1) .* eigvec(:,:,2) + ...
+            alpha(:,:,2) .* eigvec(:,:,3) .* eigvec(:,:,4);
+D(:,:,3) = D(:,:,2);
+D(:,:,4) = alpha(:,:,1) .* eigvec(:,:,2).^2 + alpha(:,:,2) .* eigvec(:,:,4).^2;
 
-    DHL_trace(i,j) = trace(D*HL);
-    end
-end
+DHL_trace = D(:,:,1) .* H11 + D(:,:,2) .* H12 + D(:,:,3) .* H12 + D(:,:,4) .* H22;
 
 end
 
