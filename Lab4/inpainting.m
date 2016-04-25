@@ -7,7 +7,7 @@ initcourse TSBB15
 clc
 close all
 %% Variables
-      reg_size = 0;
+      reg_size = 2;
         im = double(imread('cameraman.tif'));
         mask = AddNoise(im,'mask',0,reg_size);
 figure(1);
@@ -16,20 +16,14 @@ imshow(mask)
 %% Inpainting via Total Variation
 
 %
-lambda = 0.1;
-alpha = 0.0005;
-it_rater = 100;
+lambda = 0.4;
+alpha = 0.4;
+it_rater = 20;
 
 g = mask.*im;
 u = g;
 
 tic
-%while(true)
-    
-    u = g;
-    lambda = lambda + 0.1;
-    alpha = alpha; %+ 0.00005;
- %if no work do hessian stuff
     for it = 1:it_rater
         
     [ux, uy] = LkGrad(u,3,0.5);
@@ -37,18 +31,31 @@ tic
     [uyy, uyx] = LkGrad(uy,3,0.5);
 
     abs_grad = sqrt(ux.^2 + uy.^2);
-
-    u = u - alpha*(mask.*(u-g) - lambda*(uxx.*uy.^2-2*uxy.*ux.*uy+uyy.*ux.^2)./abs_grad.^3);
-
+    u_mask = mask.*(u-g);
+    u_div = (uxx.*uy.^2-2*uxy.*ux.*uy+uyy.*ux.^2)./abs_grad.^3;
+    u = u - alpha*(u_mask - lambda*u_div);
     end
-    
+
+% Plot
+
     figure(3)
-    imshow(u, [])
+    subplot(2,2,1)
+    imshow(uxx.*uy.^2, []);title('u_{xy}')
+    subplot(2,2,2)
+    imshow(2*uxy.*ux.*uy, []);title('u_{yx}')
+    subplot(2,2,3)
+    imshow(uyy.*ux.^2, []);title('u_{xx}')
+    subplot(2,2,4)    
+    imshow(uyy, []);title('u_{yy}')
     drawnow;
-    %k = waitforbuttonpress;
-%end
-toc
-
-
-
-%u_new = 
+    
+    figure(4)
+    subplot(2,2,1)
+    imshow(g, []);title('g')
+    subplot(2,2,2)
+    imshow(u_div, []);title('u_{div}')
+    subplot(2,2,3)
+    imshow(u, [0 253]);title('u')
+    subplot(2,2,4)    
+    imshow(u_mask, []);title('u_{mask}')
+    drawnow;
