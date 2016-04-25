@@ -34,7 +34,7 @@ end
 
 %% Algorithm 
 k = 10^-2;
-delta_s = std*1000; %Arbitrary scaling factor 1/10
+delta_s = 0.3; %Arbitrary scaling factor 0.3
 iterations = 1;
 
 Lnew = L;
