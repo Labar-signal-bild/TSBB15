@@ -24,7 +24,7 @@ g = mask.*im;
 u = g;
 
 tic
-while(true)
+%while(true)
     
     u = g;
     lambda = lambda + 0.1;
@@ -38,19 +38,15 @@ while(true)
 
     abs_grad = sqrt(ux.^2 + uy.^2);
 
-
     u = u - alpha*(mask.*(u-g) - lambda*(uxx.*uy.^2-2*uxy.*ux.*uy+uyy.*ux.^2)./abs_grad.^3);
 
-    
     end
     
     figure(3)
     imshow(u, [])
     drawnow;
-    lambda
-    alpha
-    k = waitforbuttonpress;
-end
+    %k = waitforbuttonpress;
+%end
 toc
 
 
