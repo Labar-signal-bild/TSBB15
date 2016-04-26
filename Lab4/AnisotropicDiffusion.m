@@ -1,44 +1,44 @@
-function L_new = AnisotropicDiffusion(L_new,k,it,delta_s)
+function Lnew = AnisotropicDiffusion(Lnew,k,it,delta_s)
 %DIFFTENS diff_tensor = DiffTensor(L,k) Calculates the diffusion tensor
 %k = stepsize for alpha
 
 for i=1:it
-    DHL_trace = zeros(size(L_new));
+    DHL_trace = zeros(size(Lnew));
 
     % Calculate structure tensor T with HarrisTensor
-    [T11 T22 T12]= HarrisTensor(L_new);
+    [T11 T22 T12]= HarrisTensor(Lnew);
 
     % Hessian = approx acc to slide 64
     h11 = [0,0,0; 1,-2,1;0,0,0];
     h12 = 1/4*[1,0,-1; 0,0,0;-1,0,1];
     h22 = h11';
-    H11 = conv2(L_new,h11,'same');
-    H12 = conv2(L_new,h12,'same');
-    H22 = conv2(L_new,h22,'same');
+    H11 = conv2(Lnew,h11,'same');
+    H12 = conv2(Lnew,h12,'same');
+    H22 = conv2(Lnew,h22,'same');
 
     U = T11+T22;
     E = T11.*T22 - T12.*T12;
 
     %Perform EVD
-    eigval = ones(size(L_new,1),size(L_new,2),2);
+    eigval = ones(size(Lnew,1),size(Lnew,2),2);
     sqrt_temp = sqrt(U.^2/4-E);
     eigval(:,:,1) = U/2 + sqrt_temp;
     eigval(:,:,2) = U/2 - sqrt_temp;
 
-    eigvec = ones(size(L_new,1),size(L_new,2),4);
+    eigvec = ones(size(Lnew,1),size(Lnew,2),4);
     eigvec(:,:,1) = eigval(:,:,1) - T22 ;
     eigvec(:,:,2) = T12;
     eigvec(:,:,3) = eigval(:,:,2) - T22 ;
     eigvec(:,:,4) = T12;
 
     % Calculate alpha from lambda.
-    alpha = ones(size(L_new,1),size(L_new,2),2);
+    alpha = ones(size(Lnew,1),size(Lnew,2),2);
     alpha(:,:,1) = exp(-eigval(:,:,1) ./ k);
     alpha(:,:,2) = exp(-eigval(:,:,2) ./ k);
 
     % Calculate D acc to p 56
 
-    D = ones(size(L_new,1),size(L_new,2),4);
+    D = ones(size(Lnew,1),size(Lnew,2),4);
     D(:,:,1) = alpha(:,:,1) .* eigvec(:,:,1).^2 + alpha(:,:,2) .* eigvec(:,:,3).^2;
     D(:,:,2) = alpha(:,:,1) .* eigvec(:,:,1) .* eigvec(:,:,2) + ...
                 alpha(:,:,2) .* eigvec(:,:,3) .* eigvec(:,:,4);
