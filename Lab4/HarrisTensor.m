@@ -1,7 +1,7 @@
-function [ T11Out T22Out T12Out ] = HarrisTensor( Image )
+function [ T11Out T22Out T12Out ] = HarrisTensor( Image,N,std )
 %HARRISTENSOR Make a tensor for each pixel and put it in a matrix
 
-[fx fy] = LkGrad (Image,3,0.5); % 1/0.5 these you can variate
+[fx fy] = LkGrad (Image,N,std); % 1/0.5 these you can variate
 % Cameraman looks good with these numbers
 
 

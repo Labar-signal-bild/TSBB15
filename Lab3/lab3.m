@@ -1,13 +1,12 @@
 %% TSBB15 lab3
 clear
-clc
 initcourse TSBB15
+clc
 close all
 mex non_max_suppression.c
 %%
 % Variables
 supBox = 10; % Area for finding best harris point
-regBox = 100; % Area for finding close intrest points
 cutBox = 7; % Area round intrest point
 threshold = 6200; %Adjusts amount of Harris points
 interest_thresh = 500; %Decrease to increase amount of Harris points
@@ -34,10 +33,12 @@ T = 2; %Increase to make more inliers
 figure(3);clf;
 show_harris(Imi, Inliers_i(1,:),Inliers_i(2,:));
 plot_eplines(F', Xt,[0 , size(Imi,1) , 0 , size(Imi,2)] ); 
+title('Right');
 hold off;
 figure(4); clf;
 show_harris(Imt, Inliers_t(1,:),Inliers_t(2,:));
-g = plot_eplines(F, Xi,[0 , size(Imt,1) , 0 , size(Imt,2)] );
+plot_eplines(F, Xi,[0 , size(Imt,1) , 0 , size(Imt,2)] );
+title('Left');
 
 %% 5 LSQNONLIN and the GS algorithm
 
@@ -76,10 +77,14 @@ end
 figure(5);clf;
 show_harris(Imi, Inliers_igs(1,:),Inliers_igs(2,:));
 plot_eplines(Fnew',Xt,[0 , size(Imi,1) , 0 , size(Imi,2)] ); 
+title('Right');
+
 hold off;
 figure(6); clf;
 show_harris(Imt, Inliers_tgs(1,:),Inliers_tgs(2,:));
-g = plot_eplines(Fnew, Xi,[0 , size(Imt,1) , 0 , size(Imt,2)] );
+plot_eplines(Fnew, Xi,[0 , size(Imt,1) , 0 , size(Imt,2)] );
+title('Left');
+
 
 %% Verification
 err_old = fmatrix_residuals(F,Inliers_t,Inliers_i);

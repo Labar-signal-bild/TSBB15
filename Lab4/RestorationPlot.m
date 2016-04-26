@@ -10,7 +10,7 @@ if(~(IMAGE_SET == 3))
     title1 = ['Original image ' num2str(im1_mean)];
     title2 = ['With noise, mean = ' num2str(im2_mean)];
     title3 = ['Enhancement, mean = ' num2str(im3_mean)];
-    title4 = ['Difference after ' num2str(epochs) ' epochs'];
+    title4 = ['SNR'];
     
     signal_var =  var(im3(:));
     snr = 10 * log10(signal_var / noise_var);
@@ -32,6 +32,6 @@ figure
     subplot(2,2,3);
         imagesc(im3, colorAxis); colorbar;title(title3);
     subplot(2,2,4);
-        imagesc(im4, colorAxis); colorbar;title(title4);
+        plot(im4); colorbar;title(title4);
 end
 
