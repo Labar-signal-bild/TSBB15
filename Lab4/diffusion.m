@@ -1,14 +1,14 @@
 %% TSBB15 Diffusion
-%cd ~/Documents/TSBB15/Lab4 %Fredrik
-cd ~/skola/TSBB15/Lab4 %Poole
+cd ~/Documents/TSBB15/Lab4 %Fredrik
+%cd ~/skola/TSBB15/Lab4 %Poole
 clear
 initcourse TSBB15
 clc
 close all
 %% Variables
-IMAGE_SET = 2; % 1 = camera_man, 2 = testCircle
+IMAGE_SET = 3; % 1 = camera_man, 2 = testCircle
 PLOTS_ON = 1;
-k = 10^-2; %10^-2 good for binary
+k = 10^1; %10^-2 good for binary
 delta_s = 0.3; %Arbitrary scaling factor, 0.3 is a good number for binary
 epochs = 100; 
 

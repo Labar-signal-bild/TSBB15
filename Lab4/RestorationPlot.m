@@ -26,12 +26,12 @@ end
 %imshow(im,[0 1]) if we have a binary image with many epochs
 figure
     subplot(2,2,1);
-        imagesc(im1, colorAxis); colorbar;;title(title1);
+        imagesc(im1, colorAxis); colorbar;title(title1);
     subplot(2,2,2);
-        imagesc(im2, colorAxis); colorbar;;title(title2);
+        imagesc(im2, colorAxis); colorbar;title(title2);
     subplot(2,2,3);
-        imagesc(im3, colorAxis); colorbar;;title(title3);
+        imagesc(im3, colorAxis); colorbar;title(title3);
     subplot(2,2,4);
-        imagesc(im4, colorAxis); colorbar;;title(title4);
+        imagesc(im4, colorAxis); colorbar;title(title4);
 end
 
